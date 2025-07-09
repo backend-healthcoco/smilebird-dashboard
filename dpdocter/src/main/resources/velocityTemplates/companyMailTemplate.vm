@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Set Password.
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,400italic' rel='stylesheet'
+        type='text/css'>
+</head>
+
+<body style="font-family: 'Roboto Condensed', sans-serif; background-color: #f2f2f2">
+    <div class="container"
+        style="background-color:white;line-height:24px;margin-bottom:30px;font-family:'Open Sans',sans-serif;margin:0px auto;min-width:200px;max-width:600px; padding-bottom: 20px;">
+        <div style="background-color: #f2efef8c !important;">
+            <a href="https://www.healthcoco.com/safeplace" target="_blank"><img src="https://d1ayyk8caoqrgh.cloudfront.net/Safe+place+images/SAFEPLACElogo.png" alt="healthcoco_logo" width="280px" style="display:block;" /></a>
+        </div>
+        <div style="padding: 0px 20px;">
+            <h3>Set password for Safeplace account</h3>
+        </div>
+
+        <div style="padding: 22px; background-color: #e6e6e3;">
+            <div align="center">
+            <img src="https://d1ayyk8caoqrgh.cloudfront.net/Safe+place+images/set+pwd.png" style="width:350px;">
+            </div>
+        </div>
+        <div style="padding: 22px">
+            <p>Greeting ${fName},</p>
+
+            <p style="margin: 0;">Thank you for joining Safeplace. Safeplace makes sure your workplace, worksites, offices, schools and colleges are safe and COVID free.</p>
+            
+            <p style="margin: 10px 0 0 0;">Kindly set the password by clicking on the button below, and login to enjoy our services.</p>
+            <p style="margin: 20px 0 0 0;">Warm regards,</p>
+            <p style="margin: 0;">Team Healthcoco</p>
+            <div style="text-align: center;padding: 20px 0px 0px;">
+                <a style="background-color: #ff8400; border: none;color: white;padding: 18px 60px;
+                border-radius: 28px;text-align: center;text-decoration:none;"
+                    href="${setSafePasswordLink}" target="_blank">Set Password</a>
+            </div>
+
+        </div>
+        <div style="background-color: #e6e6e3;">
+        <div style="overflow: hidden;">
+            <div align="center" style="float: left;">
+                <img src="https://www.healthcoco.com/assets/images/safeplace/safeAPP.png" alt="safeplaceApp"  style="width:230px;">
+            </div>
+          
+          <div style="float: left;margin-top: 30px;">
+            <small style="margin-left: 25px;"><b>Download the Safeplace App</b></small>
+            <ul>
+              <li><small><b>Safe Employees</b></small></li>
+              <li><small><b>Safe Co-Workers</b></small></li>
+              <li><small><b>Safe Visitors</b></small></li>
+              <li><small><b>Safe Employers</b></small></li>
+              <li><small><b>Safe Workplace</b></small></li>
+            </ul>
+
+            <p align="center">
+              <a style="text-decoration:none;" href="https://play.google.com/store/apps/details?id=com.healthcoco.safeplaceuser&hl=en" target="_blank"><img alt="Healthcoco" 
+                  src="https://d12gvn78jkew5f.cloudfront.net/MailTemplate/Google_play_1x.png"
+              style="width: 117px;"></a>
+
+              <a style="text-decoration:none;" href="https://apps.apple.com/in/app/safeplace-by-healthcoco/id1013628846"
+              target="_blank"><img src="https://d12gvn78jkew5f.cloudfront.net/MailTemplate/app-store-badge.png"
+                  style="width: 117px;margin-left: 22px"></a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background-color: #f5f5fa !important;padding: 25px 20px;overflow: hidden;">
+          <div style="float: left;width: 350px;">
+              <small>Powered By</small>
+              <strong>HEALTHCOCO</strong>
+
+              <p style="margin-bottom: 0;"><small style="font-size: 11px;"><b>Call: +91 8459802223 &nbsp;&nbsp;Email: support@healthcoco.com</b></small></p>
+          </div>
+          <div style="float: left;">
+              <h4 style="color: #5c5b5b;margin:0;">
+                  Follow us at
+              </h4>
+              <div style="margin-top: 10px;">
+                  <a href="https://www.facebook.com/healthcoco/" target="_blank"><img src="https://d1ayyk8caoqrgh.cloudfront.net/email-template/facebook-21598343509134.png" alt="insert logo here" width="25">
+                  </a>&nbsp;&nbsp;
+                  <a href="https://www.linkedin.com/company/healthcoco/" target="_blank"><img
+                      src="https://d1ayyk8caoqrgh.cloudfront.net/email-template/in1598343918208.png" alt="insert logo here" width="25">
+                  </a>&nbsp;&nbsp;
+                  <a href="https://www.instagram.com/healthcoco/" target="_blank"><img
+                      src="https://d1ayyk8caoqrgh.cloudfront.net/email-template/instagram-sketched1598343944136.png" alt="insert logo here" width="25">
+                  </a>&nbsp;&nbsp;
+                  <a href="https://twitter.com/healthcococom" target="_blank"><img src="https://d1ayyk8caoqrgh.cloudfront.net/email-template/twitter1598343981972.png" alt="insert logo here" width="25"></a>&nbsp;&nbsp;
+                  <a href="https://www.youtube.com/channel/UCAvIuW5nt0qBXvAfVeynQOg" target="_blank"><img src="https://d1ayyk8caoqrgh.cloudfront.net/email-template/youtube1598343999812.png" alt="insert logo here" width="25"></a>
+              </div>
+          </div>
+      </div>
+      <small>
+          <a href="https://www.healthcoco.com/company/privacy-policy" target="_blank" style="color: #2d2c2c;">Privacy Policy</a>
+      </small>
+      <small style="float: right;">
+          &copy; 2015-2020, All Rights Reserved.
+      </small>
+
+    </div>
+</body>
+
+</html>

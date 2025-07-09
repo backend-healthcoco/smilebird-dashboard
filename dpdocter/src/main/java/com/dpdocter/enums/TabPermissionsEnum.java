@@ -1,0 +1,21 @@
+package com.dpdocter.enums;
+
+public enum TabPermissionsEnum {
+
+	PRESCRIPTION("PRESCRIPTION"), CLINICAL_NOTES("CLINICAL_NOTES"), HISTORY("HISTORY"), TREATMENT("TREATMENT"),
+	REPORTS("REPORTS"), DISCHARGE_SUMMARY("DISCHARGE_SUMMARY"), BILLING("BILLING"), MY_FILES("MY_FILES"),
+	PROCEDURE_SHEET("PROCEDURE_SHEET"), DISCOUNT("DISCOUNT"), ADMIT_CARD("ADMIT_CARD"), FLOWSHEET("FLOWSHEET"),
+	APPOINTMENT("APPOINTMENT"), VISIT("VISIT"), PROFILE("PROFILE"), REGISTER("REGISTER"),
+	DENTAL_IMAGING_REPORT("DENTAL_IMAGING_REPORT"), LAB_REPORTS("LAB_REPORTS"), VACCINATION("VACCINATION"),ORTHO("ORTHO");
+
+	private String permissions;
+
+	private TabPermissionsEnum(String permissions) {
+		this.permissions = permissions;
+	}
+
+	public String getPermissions() {
+		return permissions;
+	}
+
+}

@@ -1,0 +1,243 @@
+package com.dpdocter.beans;
+
+import com.dpdocter.collections.GenericCollection;
+
+public class DoctorAppFeedback extends GenericCollection {
+
+	private String id;
+	private Integer interconnectednessOfPlatform;
+	private Integer usefulnessOFPrescription;;
+	private Integer usefulOfListing;
+	private Integer usefulOfAppointment;
+	private Integer valueAdditionToPractice;
+	private Integer timeSavingInPrescription;
+	private Integer timeSavingInAppointments;
+	private Integer timeSavingInReports;
+	private Integer legalSafetyInPrescription;
+	private Integer legalSafetyInDrugsInformation;
+	private Integer legalSafetyInDrugsInteraction;
+	private Integer legalSafetyInProvisionalDiagnosis;
+	private Integer legalSafetyInEMR;
+	private Integer legalSafetyInMCICompliance;
+	private Integer recordKeeping;
+	private Integer presentationSkillOverall;
+	private Integer presentationSkillExample;
+	private Integer pricing;
+	private String customizationNeeded;
+	private String commentOnVirtualReality;
+	private String suggesstions;
+	private String doctorName;
+	private String presentedBy;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Integer getInterconnectednessOfPlatform() {
+		return interconnectednessOfPlatform;
+	}
+
+	public void setInterconnectednessOfPlatform(Integer interconnectednessOfPlatform) {
+		this.interconnectednessOfPlatform = interconnectednessOfPlatform;
+	}
+
+	public Integer getUsefulnessOFPrescription() {
+		return usefulnessOFPrescription;
+	}
+
+	public void setUsefulnessOFPrescription(Integer usefulnessOFPrescription) {
+		this.usefulnessOFPrescription = usefulnessOFPrescription;
+	}
+
+	public Integer getUsefulOfListing() {
+		return usefulOfListing;
+	}
+
+	public void setUsefulOfListing(Integer usefulOfListing) {
+		this.usefulOfListing = usefulOfListing;
+	}
+
+	public Integer getUsefulOfAppointment() {
+		return usefulOfAppointment;
+	}
+
+	public void setUsefulOfAppointment(Integer usefulOfAppointment) {
+		this.usefulOfAppointment = usefulOfAppointment;
+	}
+
+	public Integer getValueAdditionToPractice() {
+		return valueAdditionToPractice;
+	}
+
+	public void setValueAdditionToPractice(Integer valueAdditionToPractice) {
+		this.valueAdditionToPractice = valueAdditionToPractice;
+	}
+
+	public Integer getTimeSavingInPrescription() {
+		return timeSavingInPrescription;
+	}
+
+	public void setTimeSavingInPrescription(Integer timeSavingInPrescription) {
+		this.timeSavingInPrescription = timeSavingInPrescription;
+	}
+
+	public Integer getTimeSavingInAppointments() {
+		return timeSavingInAppointments;
+	}
+
+	public void setTimeSavingInAppointments(Integer timeSavingInAppointments) {
+		this.timeSavingInAppointments = timeSavingInAppointments;
+	}
+
+	public Integer getTimeSavingInReports() {
+		return timeSavingInReports;
+	}
+
+	public void setTimeSavingInReports(Integer timeSavingInReports) {
+		this.timeSavingInReports = timeSavingInReports;
+	}
+
+	public Integer getLegalSafetyInPrescription() {
+		return legalSafetyInPrescription;
+	}
+
+	public void setLegalSafetyInPrescription(Integer legalSafetyInPrescription) {
+		this.legalSafetyInPrescription = legalSafetyInPrescription;
+	}
+
+	public Integer getLegalSafetyInDrugsInformation() {
+		return legalSafetyInDrugsInformation;
+	}
+
+	public void setLegalSafetyInDrugsInformation(Integer legalSafetyInDrugsInformation) {
+		this.legalSafetyInDrugsInformation = legalSafetyInDrugsInformation;
+	}
+
+	public Integer getLegalSafetyInDrugsInteraction() {
+		return legalSafetyInDrugsInteraction;
+	}
+
+	public void setLegalSafetyInDrugsInteraction(Integer legalSafetyInDrugsInteraction) {
+		this.legalSafetyInDrugsInteraction = legalSafetyInDrugsInteraction;
+	}
+
+	public Integer getLegalSafetyInProvisionalDiagnosis() {
+		return legalSafetyInProvisionalDiagnosis;
+	}
+
+	public void setLegalSafetyInProvisionalDiagnosis(Integer legalSafetyInProvisionalDiagnosis) {
+		this.legalSafetyInProvisionalDiagnosis = legalSafetyInProvisionalDiagnosis;
+	}
+
+	public Integer getLegalSafetyInEMR() {
+		return legalSafetyInEMR;
+	}
+
+	public void setLegalSafetyInEMR(Integer legalSafetyInEMR) {
+		this.legalSafetyInEMR = legalSafetyInEMR;
+	}
+
+	public Integer getLegalSafetyInMCICompliance() {
+		return legalSafetyInMCICompliance;
+	}
+
+	public void setLegalSafetyInMCICompliance(Integer legalSafetyInMCICompliance) {
+		this.legalSafetyInMCICompliance = legalSafetyInMCICompliance;
+	}
+
+	public Integer getRecordKeeping() {
+		return recordKeeping;
+	}
+
+	public void setRecordKeeping(Integer recordKeeping) {
+		this.recordKeeping = recordKeeping;
+	}
+
+	public Integer getPresentationSkillOverall() {
+		return presentationSkillOverall;
+	}
+
+	public void setPresentationSkillOverall(Integer presentationSkillOverall) {
+		this.presentationSkillOverall = presentationSkillOverall;
+	}
+
+	public Integer getPresentationSkillExample() {
+		return presentationSkillExample;
+	}
+
+	public void setPresentationSkillExample(Integer presentationSkillExample) {
+		this.presentationSkillExample = presentationSkillExample;
+	}
+
+	public Integer getPricing() {
+		return pricing;
+	}
+
+	public void setPricing(Integer pricing) {
+		this.pricing = pricing;
+	}
+
+	public String getCustomizationNeeded() {
+		return customizationNeeded;
+	}
+
+	public void setCustomizationNeeded(String customizationNeeded) {
+		this.customizationNeeded = customizationNeeded;
+	}
+
+	public String getCommentOnVirtualReality() {
+		return commentOnVirtualReality;
+	}
+
+	public void setCommentOnVirtualReality(String commentOnVirtualReality) {
+		this.commentOnVirtualReality = commentOnVirtualReality;
+	}
+
+	public String getSuggesstions() {
+		return suggesstions;
+	}
+
+	public void setSuggesstions(String suggesstions) {
+		this.suggesstions = suggesstions;
+	}
+
+	public String getDoctorName() {
+		return doctorName;
+	}
+
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
+
+	public String getPresentedBy() {
+		return presentedBy;
+	}
+
+	public void setPresentedBy(String presentedBy) {
+		this.presentedBy = presentedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "DoctorAppFeedback [id=" + id + ", interconnectednessOfPlatform=" + interconnectednessOfPlatform
+				+ ", usefulnessOFPrescription=" + usefulnessOFPrescription + ", usefulOfListing=" + usefulOfListing
+				+ ", usefulOfAppointment=" + usefulOfAppointment + ", valueAdditionToPractice="
+				+ valueAdditionToPractice + ", timeSavingInPrescription=" + timeSavingInPrescription
+				+ ", timeSavingInAppointments=" + timeSavingInAppointments + ", timeSavingInReports="
+				+ timeSavingInReports + ", legalSafetyInPrescription=" + legalSafetyInPrescription
+				+ ", legalSafetyInDrugsInformation=" + legalSafetyInDrugsInformation
+				+ ", legalSafetyInDrugsInteraction=" + legalSafetyInDrugsInteraction
+				+ ", legalSafetyInProvisionalDiagnosis=" + legalSafetyInProvisionalDiagnosis + ", legalSafetyInEMR="
+				+ legalSafetyInEMR + ", legalSafetyInMCICompliance=" + legalSafetyInMCICompliance + ", recordKeeping="
+				+ recordKeeping + ", presentationSkillOverall=" + presentationSkillOverall
+				+ ", presentationSkillExample=" + presentationSkillExample + ", pricing=" + pricing
+				+ ", customizationNeeded=" + customizationNeeded + ", commentOnVirtualReality="
+				+ commentOnVirtualReality + ", suggesstions=" + suggesstions + ", doctorName=" + doctorName
+				+ ", presentedBy=" + presentedBy + "]";
+	}
+
+}
