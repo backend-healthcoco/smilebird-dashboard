@@ -412,8 +412,8 @@ public class OTPServiceImpl implements OTPService {
 		String OTP = null;
 		try {
 			OTP = LoginUtils.generateOTP();
-			response = mailService.sendEmail(emailAddress, "Healthcoco sent you OTP", OTP
-					+ " is your Healthcoco OTP. Code is valid for 30 minutes only, one time use. Stay Healthy and Happy!",
+			response = mailService.sendEmail(emailAddress, "Smilebird sent you OTP", OTP
+					+ " is your Smilebird OTP. Code is valid for 30 minutes only, one time use. Stay Healthy and Happy!",
 					null);
 
 			System.out.println(OTP);

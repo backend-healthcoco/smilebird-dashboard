@@ -53,29 +53,29 @@ public class ESDoctorDocument extends DoctorLocation {
 	private List<WorkingSchedule> workingSchedules;
 
 	@MultiField(mainField = @Field(type = FieldType.Text))
-	private List<String> specialities;//ids
+	private List<String> specialities;// ids
 
 	@MultiField(mainField = @Field(type = FieldType.Text))
-	private List<String> services;//ids
+	private List<String> services;// ids
 
 	@MultiField(mainField = @Field(type = FieldType.Text))
 	private List<String> parentSpecialities;
 
 	@MultiField(mainField = @Field(type = FieldType.Text))
-	private List<String> specialitiesValue;//value
+	private List<String> specialitiesValue;// value
 
 	@MultiField(mainField = @Field(type = FieldType.Text))
-	private List<String> servicesValue;//value
-	
+	private List<String> servicesValue;// value
+
 	@MultiField(mainField = @Field(type = FieldType.Keyword))
 	private List<String> formattedParentSpecialities;
 
 	@MultiField(mainField = @Field(type = FieldType.Keyword))
-	private List<String> formattedSpecialitiesValue;//value
+	private List<String> formattedSpecialitiesValue;// value
 
 	@MultiField(mainField = @Field(type = FieldType.Keyword))
-	private List<String> formattedServicesValue;//value
-	
+	private List<String> formattedServicesValue;// value
+
 	@Field(type = FieldType.Nested)
 	private DoctorExperience experience;
 
@@ -135,54 +135,55 @@ public class ESDoctorDocument extends DoctorLocation {
 
 	@Field(type = FieldType.Boolean)
 	private Boolean isNutritionist = false;
-	
+
 	@Field(type = FieldType.Text)
 	private String RegistrationImageUrl;
 	@Field(type = FieldType.Text)
 	private String RegistrationThumbnailUrl;
-	
+
 	@Field(type = FieldType.Text)
 	private String photoIdImageUrl;
-	
+
 	@Field(type = FieldType.Boolean)
-	private Boolean isRegistrationDetailsVerified =false;
-	
+	private Boolean isRegistrationDetailsVerified = false;
+
 	@Field(type = FieldType.Boolean)
-	private Boolean isPhotoIdVerified =false;
-	
+	private Boolean isPhotoIdVerified = false;
+
 	@Field(type = FieldType.Nested)
 	private List<DoctorConsultation> consultationType;
-	
+
 	@Field(type = FieldType.Boolean)
 	private Boolean isOnlineConsultationAvailable = false;
-	
+
 	@Field(type = FieldType.Nested)
 	private List<WorkingSchedule> onlineWorkingSchedules;
-	
+
 	@Field(type = FieldType.Text)
 	private String professionalStatement;
-	
+
 	@Field(type = FieldType.Nested)
 	private List<Achievement> achievements;
 
 	@Field(type = FieldType.Nested)
 	private List<DoctorRegistrationDetail> registrationDetails;
-	
+
 	@Field(type = FieldType.Nested)
 	private List<Education> education;
-	
+
 	@MultiField(mainField = @Field(type = FieldType.Text))
 	private List<String> professionalMemberships;
-	
+
 	@Field(type = FieldType.Nested)
 	private AppointmentSlot onlineConsultationSlot;
-	
-	@Field(type = FieldType.Boolean)
-	private Boolean isHealthcocoDoctor=false;
-	
-	@Field(type = FieldType.Boolean)
-	private Boolean isExpUpdated=false;
 
+	@Field(type = FieldType.Boolean)
+	private Boolean isHealthcocoDoctor = false;
+
+	@Field(type = FieldType.Boolean)
+	private Boolean isExpUpdated = false;
+	@Field(type = FieldType.Double)
+	private Double npsScore;
 
 	public Boolean getIsNutritionist() {
 		return isNutritionist;
@@ -190,6 +191,14 @@ public class ESDoctorDocument extends DoctorLocation {
 
 	public void setIsNutritionist(Boolean isNutritionist) {
 		this.isNutritionist = isNutritionist;
+	}
+
+	public Double getNpsScore() {
+		return npsScore;
+	}
+
+	public void setNpsScore(Double npsScore) {
+		this.npsScore = npsScore;
 	}
 
 	public String getId() {
@@ -466,8 +475,6 @@ public class ESDoctorDocument extends DoctorLocation {
 		this.parentSpecialities = parentSpecialities;
 	}
 
-	
-	
 	public List<String> getFormattedParentSpecialities() {
 		return formattedParentSpecialities;
 	}
@@ -516,10 +523,6 @@ public class ESDoctorDocument extends DoctorLocation {
 		this.photoIdImageUrl = photoIdImageUrl;
 	}
 
-	
-	
-	
-
 	public Boolean getIsRegistrationDetailsVerified() {
 		return isRegistrationDetailsVerified;
 	}
@@ -559,9 +562,6 @@ public class ESDoctorDocument extends DoctorLocation {
 	public void setOnlineWorkingSchedules(List<WorkingSchedule> onlineWorkingSchedules) {
 		this.onlineWorkingSchedules = onlineWorkingSchedules;
 	}
-	
-	
-	
 
 	public List<Achievement> getAchievements() {
 		return achievements;
@@ -594,8 +594,6 @@ public class ESDoctorDocument extends DoctorLocation {
 	public void setProfessionalStatement(String professionalStatement) {
 		this.professionalStatement = professionalStatement;
 	}
-	
-	
 
 	public List<String> getProfessionalMemberships() {
 		return professionalMemberships;
@@ -604,10 +602,6 @@ public class ESDoctorDocument extends DoctorLocation {
 	public void setProfessionalMemberships(List<String> professionalMemberships) {
 		this.professionalMemberships = professionalMemberships;
 	}
-	
-	
-	
-	
 
 	public Boolean getIsExpUpdated() {
 		return isExpUpdated;

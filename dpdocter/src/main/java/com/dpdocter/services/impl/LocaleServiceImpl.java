@@ -39,7 +39,6 @@ import com.dpdocter.reflections.BeanUtil;
 import com.dpdocter.repository.LocaleRepository;
 import com.dpdocter.repository.OAuth2AccessTokenRepository;
 import com.dpdocter.repository.OAuth2RefreshTokenRepository;
-import com.dpdocter.repository.SearchRequestToPharmacyRepository;
 import com.dpdocter.repository.TokenRepository;
 import com.dpdocter.repository.UserRepository;
 import com.dpdocter.request.AddEditLocaleAddressDetailsRequest;
@@ -57,9 +56,6 @@ public class LocaleServiceImpl implements LocaleService {
 	private static Logger logger = LogManager.getLogger(LocaleServiceImpl.class.getName());
 	@Autowired
 	private LocaleRepository localeRepository;
-
-	@Autowired
-	private SearchRequestToPharmacyRepository searchRequestToPharmacyRepository;
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -113,12 +109,6 @@ public class LocaleServiceImpl implements LocaleService {
 		}
 		response = new Locale();
 		BeanUtil.map(localeCollection, response);
-		response.setTotalRequest(searchRequestToPharmacyRepository.getCountBylocaleId(new ObjectId(id)));
-		response.setCountForNo(
-				searchRequestToPharmacyRepository.getCountBylocaleIdandreplyType(new ObjectId(id), "NO"));
-		response.setCountForYes(
-				searchRequestToPharmacyRepository.getCountBylocaleIdandreplyType(new ObjectId(id), "YES"));
-		response.setCountForNoReply(searchRequestToPharmacyRepository.getCountByNOreply(new ObjectId(id)));
 		return response;
 	}
 

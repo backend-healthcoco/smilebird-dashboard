@@ -26,6 +26,8 @@ public interface PathProxy {
 
 		public static final String ADD_LANDMARK_LOCALITY = "/landmarkLocality/add";
 
+		public static final String ADD_ZONE = "/zone/add";
+
 		public static final String DELETE_CITY_BY_ID = "/delete/city/{cityId}";
 
 		public static final String DELETE_LOCALITY_BY_ID = "/delete/locality/{localityId}";

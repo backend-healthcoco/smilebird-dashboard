@@ -1,0 +1,897 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>smilebirddashboard</groupId>
+	<artifactId>smilebirddashboard</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-mongodb Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<profiles>
+		<profile>
+			<id>local</id>
+<!-- 			<properties> -->
+<!-- 				<spring.profiles.active>local</spring.profiles.active> -->
+<!-- 			</properties> -->
+<!-- 			<activation> -->
+<!-- 				<activeByDefault>true</activeByDefault> -->
+<!-- 			</activation> -->
+			<build>
+				<finalName>healthco2admin</finalName>
+				<resources>
+					<resource>
+						<directory>src/main/resources/spring-properties/local</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources/velocityTemplates</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<finalName>healthco2admin</finalName>
+				<resources>
+					<resource>
+						<directory>src/main/resources/spring-properties/dev</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources/velocityTemplates</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>qa</id>
+<!-- 			<properties> -->
+<!-- 				<spring.profiles.active>qa</spring.profiles.active> -->
+<!-- 			</properties> -->
+<!-- 			<activation> -->
+<!-- 				<activeByDefault>true</activeByDefault> -->
+<!-- 			</activation> -->
+			<build>
+				<finalName>healthco2admin</finalName>
+				<resources>
+					<resource>
+						<directory>src/main/resources/spring-properties/qa</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources/velocityTemplates</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>production</id>
+<!-- 			<properties> -->
+<!-- 				<spring.profiles.active>production</spring.profiles.active> -->
+<!-- 			</properties> -->
+<!-- 			<activation> -->
+<!-- 				<activeByDefault>true</activeByDefault> -->
+<!-- 			</activation> -->
+			<build>
+				<finalName>healthco2admin</finalName>
+				<resources>
+					<resource>
+						<directory>src/main/resources/spring-properties/production</directory>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources/velocityTemplates</directory>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.3.RELEASE</version>
+	</parent>
+	<dependencies>
+	<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+
+<dependency>
+    <groupId>com.nimbusds</groupId>
+    <artifactId>nimbus-jose-jwt</artifactId>
+    <version>8.7</version>
+</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Add Log4j2 Dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- OAuth2 Client -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.3.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-client</artifactId>
+			<!-- <version>5.1.4.RELEASE</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-tomcat</artifactId>
+		        <scope>provided</scope>
+		</dependency>
+		<!-- Spring Data MongoDB -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+
+		<!-- Spring Data Elasticsearch -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Jackson Fasterxml -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
+			<version>2.9.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- Integration test dependency -->
+		<dependency>
+			<groupId>de.flapdoodle.embedmongo</groupId>
+			<artifactId>de.flapdoodle.embedmongo</artifactId>
+			<version>1.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongeez</groupId>
+			<artifactId>mongeez</artifactId>
+			<version>0.9.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+ <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>1.5.2.RELEASE</version>
+</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.19.4</version>
+		</dependency>
+		<!-- Javax Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<!-- <version>4.0.1</version> -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2.1-b03</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- APACHE HTTP CLIENT -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<!-- <version>4.5.2</version> -->
+		</dependency>
+		<!-- APACHE-COMMONS_COLLECTIONS -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- APACHE IO UTILITY -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<!-- Apache Commons FileUpload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<!-- BASE64 ENCODING DECODING -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<!-- <version>1.9</version> -->
+		</dependency>
+		<!-- DOZER -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.4.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- JAVA MAIL -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<!-- JODA_TIME -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<!-- <version>2.3</version> -->
+		</dependency>
+		<!-- Jasper -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.2.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-annotations</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-core</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-analyzers-common</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-queryparser</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-queries</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene-sandbox</artifactId>
+					<groupId>org.apache.lucene</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.jaspersoft.connectors.mongodb</groupId>
+			<artifactId>js-mongodb-datasource</artifactId>
+			<version>0.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.2.4.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ar.com.fdvs</groupId>
+			<artifactId>DynamicJasper</artifactId>
+			<version>5.0.10</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jasperreports</artifactId>
+					<groupId>jasperreports</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- velocity -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.50</version>
+		</dependency>
+		<!-- Google Maps Client Library -->
+		<dependency>
+			<groupId>com.google.maps</groupId>
+			<artifactId>google-maps-services</artifactId>
+			<version>0.1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.20</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>aws-java-sdk-simpledb</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-support</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-simpleworkflow</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-storagegateway</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-route53</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-importexport</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-glacier</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-sts</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-elasticloadbalancing
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-redshift</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-iam</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-elastictranscoder
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-elasticache</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-elasticbeanstalk
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-datapipeline</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-rds</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-emr</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-cloudwatchmetrics
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-logs</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudfront</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-autoscaling</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-dynamodb</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudtrail</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-directconnect</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-opsworks</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-cognitoidentity
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-kms</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-swf-libraries</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-kinesis</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-codepipeline</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudsearch</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudformation</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudwatch</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-ec2</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-codedeploy</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cognitosync</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-efs</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-cloudhsm</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-ecs</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-lambda</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-config</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-devicefarm</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-codecommit</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-directory</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-ssm</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aws-java-sdk-workspaces</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						aws-java-sdk-machinelearning
+					</artifactId>
+					<groupId>com.amazonaws</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox-tools</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<!-- <version>1.9.4</version> -->
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<!-- <version>1.9.4</version> -->
+		</dependency>
+
+		<!-- For android GCM push notification services -->
+		<dependency>
+			<groupId>com.ganyo</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<!-- For IOS push notification services -->
+		<dependency>
+			<groupId>com.notnoop.apns</groupId>
+			<artifactId>apns</artifactId>
+			<version>0.2.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.10</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio-java-sdk -->
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio-java-sdk</artifactId>
+			<version>5.10.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-htmlcomponent</artifactId>
+			<version>5.0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/jasperreports-htmlcomponent-5.0.1.jar</systemPath>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.xhtmlrenderer/flying-saucer-pdf -->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>9.1.12</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/se.jiderhamn/classloader-leak-prevention -->
+		<dependency>
+			<groupId>se.jiderhamn</groupId>
+			<artifactId>classloader-leak-prevention</artifactId>
+			<version>1.15.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.mashape.unirest/unirest-java -->
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>4.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.spec.javax.net.ssl/jboss-jsse-api_8.0_spec -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.net.ssl</groupId>
+			<artifactId>jboss-jsse-api_8.0_spec</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.jkutner</groupId>
+			<artifactId>env-keystore</artifactId>
+			<version>0.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.parsers</groupId>
+			<artifactId>jaxp-api</artifactId>
+			<version>1.4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>sax</groupId>
+			<artifactId>sax</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.razorpay/razorpay-java -->
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okio</groupId>
+			<artifactId>okio</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<!-- <version>2.4.0-b180830.0359</version> -->
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			   <groupId>com.bol</groupId> -->
+<!-- 			   <artifactId>spring-data-mongodb-encrypt</artifactId> -->
+<!-- 			   <version>1.3.0</version> -->
+<!-- 		</dependency> -->
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<fork>false</fork>
+					<profiles>
+						<profile>dev</profile>
+					</profiles>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>3.3.1</version>
+</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Milestone Maven Repository</name>
+			<url>https://repo.springsource.org/libs-milestone</url>
+		</repository>
+	<!--	<repository>
+			<id>bippo-nexus-public</id>
+			<url>https://nexus.bippo.co.id/nexus/content/groups/public/</url>
+		</repository>
+		-->
+		<repository>
+			<id>jasperreports</id>
+			<url>http://jasperreports.sourceforge.net/maven2</url>
+		</repository>
+		<repository>
+			<id>jaspersoft-third-party</id>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+		</repository>
+		<repository>
+			<id>MongoJasperRepo</id>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/jaspersoft-repo</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+</project>

@@ -31,6 +31,7 @@ import com.dpdocter.beans.Appointment;
 import com.dpdocter.beans.City;
 import com.dpdocter.beans.Clinic;
 import com.dpdocter.beans.LandmarkLocality;
+import com.dpdocter.beans.Zone;
 import com.dpdocter.elasticsearch.document.ESCityDocument;
 import com.dpdocter.elasticsearch.document.ESLandmarkLocalityDocument;
 import com.dpdocter.elasticsearch.services.ESCityService;
@@ -245,6 +246,20 @@ public class AppointmentV3Api {
 		esCityService.addLocalityLandmark(esLandmarkLocalityDocument);
 		Response<LandmarkLocality> response = new Response<LandmarkLocality>();
 		response.setData(locality);
+		return response;
+	}
+
+	@PostMapping(value = PathProxy.AppointmentUrls.ADD_ZONE)
+	@ApiOperation(value = PathProxy.AppointmentUrls.ADD_ZONE, notes = PathProxy.AppointmentUrls.ADD_ZONE)
+	public Response<Zone> addZone(@RequestBody Zone request) {
+		if (request == null) {
+			logger.warn("Invalid Input");
+			throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
+		}
+		Zone zone = appointmentService.addZone(request);
+		transnationalService.addResource(new ObjectId(request.getId()), Resource.ZONE, false);
+		Response<Zone> response = new Response<Zone>();
+		response.setData(zone);
 		return response;
 	}
 

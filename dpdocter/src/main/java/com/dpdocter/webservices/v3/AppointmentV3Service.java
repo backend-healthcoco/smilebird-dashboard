@@ -7,6 +7,7 @@ import com.dpdocter.beans.Appointment;
 import com.dpdocter.beans.City;
 import com.dpdocter.beans.Clinic;
 import com.dpdocter.beans.LandmarkLocality;
+import com.dpdocter.beans.Zone;
 import com.dpdocter.request.BroadcastByTreatmentRequest;
 import com.dpdocter.request.DentalChainAppointmentRequest;
 import com.dpdocter.response.PatientTimelineHistoryResponse;
@@ -31,6 +32,8 @@ public interface AppointmentV3Service {
 	City getCity(String cityId);
 
 	LandmarkLocality addLandmaklLocality(LandmarkLocality locality);
+
+	Zone addZone(Zone zone);
 
 	Clinic getClinic(String locationId);
 

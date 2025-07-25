@@ -138,7 +138,8 @@ public class ESLocationDocument {
 	
 	@Field(type = FieldType.Text)
 	private String chargeCode;
-
+	@Field(type = FieldType.Double)
+	private Double npsScore;
 	public Boolean getIsDentalChain() {
 		return isDentalChain;
 	}
@@ -465,6 +466,14 @@ public class ESLocationDocument {
 
 	public void setChargeCode(String chargeCode) {
 		this.chargeCode = chargeCode;
+	}
+
+	public Double getNpsScore() {
+		return npsScore;
+	}
+
+	public void setNpsScore(Double npsScore) {
+		this.npsScore = npsScore;
 	}
 
 	@Override

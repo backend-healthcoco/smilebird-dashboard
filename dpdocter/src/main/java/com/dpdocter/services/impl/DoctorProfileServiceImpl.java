@@ -1003,7 +1003,8 @@ public class DoctorProfileServiceImpl implements DoctorProfileService {
 								? locationCollection.getPostalCode()
 								: "");
 
-				if (address.charAt(address.length() - 2) == ',') {
+				if (!DPDoctorUtils.anyStringEmpty(address) && address.length() >= 2
+						&& address.charAt(address.length() - 2) == ',') {
 					address = address.substring(0, address.length() - 2);
 				}
 				// doctorClinic.setBulkSmsCredit(doctorClinicCollection.getBulkSmsCredit());

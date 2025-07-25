@@ -17,7 +17,6 @@ public interface PushNotificationServices {
 	void notifyUser(String userId, String message, String componentType, String componentTypeId,
 			List<UserDeviceCollection> userDeviceCollections);
 
-	void broadcastNotification(BroadcastNotificationRequest request);
 
 	void readNotification(String deviceId, Integer count);
 

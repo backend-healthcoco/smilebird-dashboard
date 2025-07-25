@@ -177,4 +177,6 @@ public interface AdminServices {
 	public Boolean getDailyReportAnalyticstoDoctor();
 	
 	public Boolean getWeeklyReportAnalyticstoDoctor();
+
+	Boolean updateClinicNpsScore(String locationId, double npsScore);
 }

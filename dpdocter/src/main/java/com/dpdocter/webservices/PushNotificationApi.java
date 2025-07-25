@@ -52,11 +52,7 @@ public class PushNotificationApi {
 	@PostMapping(value = PathProxy.PushNotificationUrls.BROADCAST_NOTIFICATION)
 	@ApiOperation(value = PathProxy.PushNotificationUrls.BROADCAST_NOTIFICATION, notes = PathProxy.PushNotificationUrls.BROADCAST_NOTIFICATION)
 	public Response<Boolean> broadcastNotification(@RequestBody BroadcastNotificationRequest request){
-		if(request == null){
-			    logger.warn("Invalid Input");
-			    throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
-		}
-		pushNotificationServices.broadcastNotification(request);
+		
 		Response<Boolean> response = new Response<Boolean>();
 		response.setData(true);
 		return response;

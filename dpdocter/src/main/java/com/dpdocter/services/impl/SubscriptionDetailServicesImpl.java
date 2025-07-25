@@ -203,7 +203,7 @@ public class SubscriptionDetailServicesImpl implements SubscriptionDetailService
 			SubscriptionDetailCollection subscriptionDetailCollection = null;
 			Set<ObjectId> locationIdSet = null;
 			SubscriptionDetail subscriptionDetail = null;
-			Criteria criteria = new Criteria("roles.role").is(RoleEnum.LOCATION_ADMIN.toString());
+			Criteria criteria = new Criteria("roles.role").is(RoleEnum.SUPER_ADMIN.toString());
 
 			Aggregation aggregation = Aggregation.newAggregation(
 					Aggregation.lookup("role_cl", "roleId", "_id", "roles"), Aggregation.match(criteria));

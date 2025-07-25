@@ -4,98 +4,107 @@ import java.util.List;
 
 public class ClinicAddress {
 
-    private String id;
+	private String id;
 
-    private String locationName;
+	private String locationName;
 
-    private String streetAddress;
+	private String streetAddress;
 
-    private String locality;
+	private String locality;
 
-    private String city;
+	private String city;
 
-    private String state;
+	private String zone;
 
-    private String country;
+	private String state;
 
-    private String postalCode;
+	private String country;
 
-    private String clinicNumber;
+	private String postalCode;
 
-    private List<String> alternateClinicNumbers;
+	private String clinicNumber;
 
-    private String landmarkDetails;
+	private List<String> alternateClinicNumbers;
 
-    private Double latitude;
+	private String landmarkDetails;
 
-    private Double longitude;
+	private Double latitude;
 
-    public String getId() {
-	return id;
-    }
+	private Double longitude;
 
-    public void setId(String id) {
-	this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getLocationName() {
-	return locationName;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setLocationName(String locationName) {
-	this.locationName = locationName;
-    }
+	public String getLocationName() {
+		return locationName;
+	}
 
-    public String getStreetAddress() {
-	return streetAddress;
-    }
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
 
-    public void setStreetAddress(String streetAddress) {
-	this.streetAddress = streetAddress;
-    }
+	public String getStreetAddress() {
+		return streetAddress;
+	}
 
-    public String getLocality() {
-	return locality;
-    }
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
 
-    public void setLocality(String locality) {
-	this.locality = locality;
-    }
+	public String getLocality() {
+		return locality;
+	}
 
-    public String getCity() {
-	return city;
-    }
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
 
-    public void setCity(String city) {
-	this.city = city;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public String getState() {
-	return state;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public void setState(String state) {
-	this.state = state;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public String getCountry() {
-	return country;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public void setCountry(String country) {
-	this.country = country;
-    }
+	public String getCountry() {
+		return country;
+	}
 
-    public String getPostalCode() {
-	return postalCode;
-    }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-    public void setPostalCode(String postalCode) {
-	this.postalCode = postalCode;
-    }
+	public String getPostalCode() {
+		return postalCode;
+	}
 
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
 
-    public String getClinicNumber() {
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public String getClinicNumber() {
 		return clinicNumber;
 	}
 
@@ -112,28 +121,28 @@ public class ClinicAddress {
 	}
 
 	public String getLandmarkDetails() {
-	return landmarkDetails;
-    }
+		return landmarkDetails;
+	}
 
-    public void setLandmarkDetails(String landmarkDetails) {
-	this.landmarkDetails = landmarkDetails;
-    }
+	public void setLandmarkDetails(String landmarkDetails) {
+		this.landmarkDetails = landmarkDetails;
+	}
 
-    public Double getLatitude() {
-	return latitude;
-    }
+	public Double getLatitude() {
+		return latitude;
+	}
 
-    public void setLatitude(Double latitude) {
-	this.latitude = latitude;
-    }
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
 
-    public Double getLongitude() {
-	return longitude;
-    }
+	public Double getLongitude() {
+		return longitude;
+	}
 
-    public void setLongitude(Double longitude) {
-	this.longitude = longitude;
-    }
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
 
 	@Override
 	public String toString() {

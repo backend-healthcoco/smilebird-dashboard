@@ -34,20 +34,12 @@ public class LoginApi {
 
     @GetMapping(value = PathProxy.LoginUrls.LOGIN_ADMIN)
     @ApiOperation(value = PathProxy.LoginUrls.LOGIN_ADMIN, notes = PathProxy.LoginUrls.LOGIN_ADMIN, tags = PathProxy.LoginUrls.LOGIN_ADMIN)
-    public Response<Boolean> adminLogin(@PathVariable(value = "mobileNumber") String mobileNumber) {
+    public Response<Boolean> dashboardLogin(@PathVariable(value = "mobileNumber") String mobileNumber) {
 	if (mobileNumber == null || mobileNumber.isEmpty()) {
 	    logger.warn("Mobile number is null");
 	    throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
 	}
 	Boolean loginResponse = loginService.adminLogin(mobileNumber);
-	/*if (loginResponse != null) {
-	    if (!DPDoctorUtils.anyStringEmpty(loginResponse.getImageUrl())) {
-		loginResponse.setImageUrl(getFinalImageURL(loginResponse.getImageUrl()));
-	    }
-	    if (!DPDoctorUtils.anyStringEmpty(loginResponse.getThumbnailUrl())) {
-		loginResponse.setThumbnailUrl(getFinalImageURL(loginResponse.getThumbnailUrl()));
-	    }
-	}*/
 	Response<Boolean> response = new Response<Boolean>();
 	if (response != null)
 	    response.setData(loginResponse);

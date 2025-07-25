@@ -3,7 +3,6 @@ package com.dpdocter.webservices;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -31,6 +30,7 @@ import com.dpdocter.beans.City;
 import com.dpdocter.beans.Clinic;
 import com.dpdocter.beans.Lab;
 import com.dpdocter.beans.LandmarkLocality;
+import com.dpdocter.beans.Zone;
 import com.dpdocter.elasticsearch.document.ESCityDocument;
 import com.dpdocter.elasticsearch.document.ESLandmarkLocalityDocument;
 import com.dpdocter.elasticsearch.services.ESCityService;
@@ -39,9 +39,7 @@ import com.dpdocter.exceptions.BusinessException;
 import com.dpdocter.exceptions.ServiceError;
 import com.dpdocter.reflections.BeanUtil;
 import com.dpdocter.request.AppointmentRequest;
-import com.dpdocter.request.DentalChainAppointmentRequest;
 import com.dpdocter.response.ConsultationSpeciality;
-import com.dpdocter.response.SlotDataResponse;
 import com.dpdocter.services.AppointmentService;
 import com.dpdocter.services.TransactionalManagementService;
 
@@ -180,6 +178,20 @@ public class AppointmentApi {
 		esCityService.addLocalityLandmark(esLandmarkLocalityDocument);
 		Response<LandmarkLocality> response = new Response<LandmarkLocality>();
 		response.setData(locality);
+		return response;
+	}
+
+	@PostMapping(value = PathProxy.AppointmentUrls.ADD_ZONE)
+	@ApiOperation(value = PathProxy.AppointmentUrls.ADD_ZONE, notes = PathProxy.AppointmentUrls.ADD_ZONE)
+	public Response<Zone> addZone(@RequestBody Zone request) {
+		if (request == null) {
+			logger.warn("Invalid Input");
+			throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
+		}
+		Zone zone = appointmentService.addZone(request);
+		transnationalService.addResource(new ObjectId(request.getId()), Resource.ZONE, false);
+		Response<Zone> response = new Response<Zone>();
+		response.setData(zone);
 		return response;
 	}
 
@@ -363,7 +375,7 @@ public class AppointmentApi {
 				discarded, branch, isAnonymousAppointment, type);
 		return response;
 	}
-	
+
 	// get patients from patient app from patient collection
 	@GetMapping(value = PathProxy.AppointmentUrls.GET_PATIENTS)
 	@ApiOperation(value = PathProxy.AppointmentUrls.GET_PATIENTS, notes = PathProxy.AppointmentUrls.GET_PATIENTS)
@@ -371,49 +383,34 @@ public class AppointmentApi {
 			@RequestParam(required = false, value = "page", defaultValue = "0") int page,
 			@RequestParam(required = false, value = "searchTerm", defaultValue = "") String searchTerm,
 			@RequestParam(required = false, value = "mobileNumber") String mobileNumber,
-			@RequestParam(required = false, value = "isDentalChainPatient",defaultValue = "false") Boolean isDentalChainPatient) {
-	//	Integer count = appointmentService.getUsersCount(size, page, searchTerm,mobileNumber);
-		Response<Object> response = appointmentService.getUsersNew(size, page, searchTerm,mobileNumber,isDentalChainPatient);
-	//	Response<PatientAppUsersResponse> response = new Response<PatientAppUsersResponse>();
-		//response.setDataList(patientList);
-		//response.setCount(count);
+			@RequestParam(required = false, value = "isDentalChainPatient", defaultValue = "false") Boolean isDentalChainPatient) {
+		// Integer count = appointmentService.getUsersCount(size, page,
+		// searchTerm,mobileNumber);
+		Response<Object> response = appointmentService.getUsersNew(size, page, searchTerm, mobileNumber,
+				isDentalChainPatient);
+		// Response<PatientAppUsersResponse> response = new
+		// Response<PatientAppUsersResponse>();
+		// response.setDataList(patientList);
+		// response.setCount(count);
 		return response;
 	}
-	
+
 	// get patients from patient app from user collection
-		@GetMapping(value = PathProxy.AppointmentUrls.GET_USERS)
-		@ApiOperation(value = PathProxy.AppointmentUrls.GET_USERS, notes = PathProxy.AppointmentUrls.GET_USERS)
-		public Response<Object> getUsers(@RequestParam(required = false, value = "size", defaultValue = "10") int size,
-				@RequestParam(required = false, value = "page", defaultValue = "0") int page,
-				@RequestParam(required = false, value = "searchTerm", defaultValue = "") String searchTerm,
-				@RequestParam(required = false, value = "mobileNumber") String mobileNumber,
-				@RequestParam(required = false, value = "isDentalChainPatient",defaultValue = "false") Boolean isDentalChainPatient) {
-		//	Integer count = appointmentService.getUsersCount(size, page, searchTerm,mobileNumber);
-			Response<Object> response = appointmentService.getUsersFromUserCl(size, page, searchTerm,mobileNumber,isDentalChainPatient);
-		//	Response<PatientAppUsersResponse> response = new Response<PatientAppUsersResponse>();
-			//response.setDataList(patientList);
-			//response.setCount(count);
-			return response;
-		}
-	
-
-	// Get online appointment slot api for fetching available slots of doctor
-	@GetMapping(value = PathProxy.AppointmentUrls.GET_ONLINE_CONSULTATION_TIME_SLOTS)
-	@ApiOperation(value = PathProxy.AppointmentUrls.GET_ONLINE_CONSULTATION_TIME_SLOTS, notes = PathProxy.AppointmentUrls.GET_ONLINE_CONSULTATION_TIME_SLOTS)
-	public Response<SlotDataResponse> getOnlineConsultationTimeSlots(@PathVariable("doctorId") String doctorId,
-			@RequestParam(required = false, value = "type") String type, @PathVariable("date") String date,
-			@RequestParam(required = false, value = "isPatient", defaultValue = "true") Boolean isPatient)
-			throws MessagingException {
-
-		if (DPDoctorUtils.anyStringEmpty(doctorId)) {
-			logger.warn("Doctor Id Cannot Be Empty");
-			throw new BusinessException(ServiceError.InvalidInput, "Doctor Id Cannot Be Empty");
-		}
-		Date dateObj = new Date(Long.parseLong(date));
-		SlotDataResponse slotDataResponse = appointmentService.getOnlineConsultationTimeSlots(doctorId, type, dateObj,
-				isPatient);
-		Response<SlotDataResponse> response = new Response<SlotDataResponse>();
-		response.setData(slotDataResponse);
+	@GetMapping(value = PathProxy.AppointmentUrls.GET_USERS)
+	@ApiOperation(value = PathProxy.AppointmentUrls.GET_USERS, notes = PathProxy.AppointmentUrls.GET_USERS)
+	public Response<Object> getUsers(@RequestParam(required = false, value = "size", defaultValue = "10") int size,
+			@RequestParam(required = false, value = "page", defaultValue = "0") int page,
+			@RequestParam(required = false, value = "searchTerm", defaultValue = "") String searchTerm,
+			@RequestParam(required = false, value = "mobileNumber") String mobileNumber,
+			@RequestParam(required = false, value = "isDentalChainPatient", defaultValue = "false") Boolean isDentalChainPatient) {
+		// Integer count = appointmentService.getUsersCount(size, page,
+		// searchTerm,mobileNumber);
+		Response<Object> response = appointmentService.getUsersFromUserCl(size, page, searchTerm, mobileNumber,
+				isDentalChainPatient);
+		// Response<PatientAppUsersResponse> response = new
+		// Response<PatientAppUsersResponse>();
+		// response.setDataList(patientList);
+		// response.setCount(count);
 		return response;
 	}
 
@@ -489,6 +486,34 @@ public class AppointmentApi {
 		Response<ConsultationSpeciality> response = appointmentService.getConsultationWithSpeciality(locationId,
 				doctorId, patientId, from, to, page, size, updatedTime, status, sortBy, fromTime, toTime,
 				isRegisteredPatientRequired, isWeb, discarded, branch, isAnonymousAppointment, type);
+		return response;
+	}
+
+	@GetMapping(value = PathProxy.AppointmentUrls.GET_ZONE_BY_CITY_ID)
+	@ApiOperation(value = PathProxy.AppointmentUrls.GET_ZONE_BY_CITY_ID, notes = PathProxy.AppointmentUrls.GET_ZONE_BY_CITY_ID)
+	public Response<Object> getZoneById(@PathVariable(value = "cityId") String cityId,
+			@RequestParam(required = false, value = "searchTerm") String searchTerm,
+			@RequestParam(required = false, value = "isDiscarded", defaultValue = "false") Boolean isDiscarded,
+			@RequestParam(required = false, value = "page", defaultValue = "0") int page,
+			@RequestParam(required = false, value = "size", defaultValue = "0") int size) {
+		if (cityId == null) {
+			logger.warn("Invalid Input");
+			throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
+		}
+		Response<Object> response = appointmentService.getZone(size, page, cityId, searchTerm, isDiscarded);
+		return response;
+	}
+
+	@DeleteMapping(value = PathProxy.AppointmentUrls.DELETE_ZONE_BY_ID)
+	@ApiOperation(value = PathProxy.AppointmentUrls.DELETE_ZONE_BY_ID, notes = PathProxy.AppointmentUrls.DELETE_ZONE_BY_ID)
+	public Response<Boolean> deleteZoneById(@PathVariable(value = "zoneId") String zoneId,
+			@RequestParam(required = false, value = "isDiscarded", defaultValue = "true") Boolean isDiscarded) {
+		if (DPDoctorUtils.anyStringEmpty(zoneId)) {
+			logger.warn("Invalid Input");
+			throw new BusinessException(ServiceError.InvalidInput, "Invalid Input");
+		}
+		Response<Boolean> response = new Response<Boolean>();
+		response.setData(appointmentService.deleteZoneById(zoneId, isDiscarded));
 		return response;
 	}
 

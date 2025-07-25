@@ -49,11 +49,8 @@ import com.dpdocter.collections.DiagramsCollection;
 import com.dpdocter.collections.DoctorClinicProfileCollection;
 import com.dpdocter.collections.DoctorCollection;
 import com.dpdocter.collections.DrugCollection;
-import com.dpdocter.collections.InvestigationCollection;
-import com.dpdocter.collections.LabTestCollection;
 import com.dpdocter.collections.LocaleCollection;
 import com.dpdocter.collections.LocationCollection;
-import com.dpdocter.collections.NotesCollection;
 import com.dpdocter.collections.ObservationCollection;
 import com.dpdocter.collections.PatientCollection;
 import com.dpdocter.collections.SMSTrackDetail;
@@ -65,10 +62,7 @@ import com.dpdocter.elasticsearch.document.ESDiagnosesDocument;
 import com.dpdocter.elasticsearch.document.ESDiagramsDocument;
 import com.dpdocter.elasticsearch.document.ESDoctorDocument;
 import com.dpdocter.elasticsearch.document.ESDrugDocument;
-import com.dpdocter.elasticsearch.document.ESInvestigationsDocument;
-import com.dpdocter.elasticsearch.document.ESLabTestDocument;
 import com.dpdocter.elasticsearch.document.ESLocationDocument;
-import com.dpdocter.elasticsearch.document.ESNotesDocument;
 import com.dpdocter.elasticsearch.document.ESObservationsDocument;
 import com.dpdocter.elasticsearch.document.ESPatientDocument;
 import com.dpdocter.elasticsearch.document.ESUserLocaleDocument;
@@ -89,11 +83,8 @@ import com.dpdocter.repository.DiagramsRepository;
 import com.dpdocter.repository.DoctorClinicProfileRepository;
 import com.dpdocter.repository.DoctorRepository;
 import com.dpdocter.repository.DrugRepository;
-import com.dpdocter.repository.InvestigationRepository;
-import com.dpdocter.repository.LabTestRepository;
 import com.dpdocter.repository.LocaleRepository;
 import com.dpdocter.repository.LocationRepository;
-import com.dpdocter.repository.NotesRepository;
 import com.dpdocter.repository.ObservationRepository;
 import com.dpdocter.repository.PatientRepository;
 import com.dpdocter.repository.ProfessionalMembershipRepository;
@@ -130,9 +121,6 @@ public class TransactionalManagementServiceImpl implements TransactionalManageme
 	private DrugRepository drugRepository;
 
 	@Autowired
-	private LabTestRepository labTestRepository;
-
-	@Autowired
 	private LocaleRepository localeRepository;
 
 	@Autowired
@@ -145,13 +133,7 @@ public class TransactionalManagementServiceImpl implements TransactionalManageme
 	private ObservationRepository observationRepository;
 
 	@Autowired
-	private InvestigationRepository investigationRepository;
-
-	@Autowired
 	private DiagnosisRepository diagnosisRepository;
-
-	@Autowired
-	private NotesRepository notesRepository;
 
 	@Autowired
 	private DiagramsRepository diagramsRepository;
@@ -443,17 +425,7 @@ public class TransactionalManagementServiceImpl implements TransactionalManageme
 	@Override
 	@Transactional
 	public void checkLabTest(ObjectId id) {
-		try {
-			LabTestCollection labTestCollection = labTestRepository.findById(id).orElse(null);
-			if (labTestCollection != null) {
-				ESLabTestDocument esLabTestDocument = new ESLabTestDocument();
-				BeanUtil.map(labTestCollection, esLabTestDocument);
-				esPrescriptionService.addLabTest(esLabTestDocument);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
+		
 	}
 
 	@Override
@@ -491,17 +463,7 @@ public class TransactionalManagementServiceImpl implements TransactionalManageme
 	@Override
 	@Transactional
 	public void checkInvestigation(ObjectId id) {
-		try {
-			InvestigationCollection investigationCollection = investigationRepository.findById(id).orElse(null);
-			if (investigationCollection != null) {
-				ESInvestigationsDocument esInvestigationsDocument = new ESInvestigationsDocument();
-				BeanUtil.map(investigationCollection, esInvestigationsDocument);
-				esClinicalNotesService.addInvestigations(esInvestigationsDocument);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
+		
 	}
 
 	@Override
@@ -523,17 +485,7 @@ public class TransactionalManagementServiceImpl implements TransactionalManageme
 	@Override
 	@Transactional
 	public void checkNotes(ObjectId id) {
-		try {
-			NotesCollection notesCollection = notesRepository.findById(id).orElse(null);
-			if (notesCollection != null) {
-				ESNotesDocument esNotesDocument = new ESNotesDocument();
-				BeanUtil.map(notesCollection, esNotesDocument);
-				esClinicalNotesService.addNotes(esNotesDocument);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
+		
 	}
 
 	@Override

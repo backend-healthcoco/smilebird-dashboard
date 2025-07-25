@@ -89,7 +89,6 @@ import com.dpdocter.collections.SMSFormatCollection;
 import com.dpdocter.collections.SMSTrackDetail;
 import com.dpdocter.collections.UserCollection;
 import com.dpdocter.collections.UserRoleCollection;
-import com.dpdocter.elasticsearch.document.ESPatientDocument;
 import com.dpdocter.elasticsearch.repository.ESPatientRepository;
 import com.dpdocter.elasticsearch.services.ESRegistrationService;
 import com.dpdocter.enums.AppointmentCreatedBy;
@@ -103,7 +102,6 @@ import com.dpdocter.enums.DoctorFacility;
 import com.dpdocter.enums.FollowupType;
 import com.dpdocter.enums.QueueStatus;
 import com.dpdocter.enums.Resource;
-import com.dpdocter.enums.RoleEnum;
 import com.dpdocter.enums.SMSContent;
 import com.dpdocter.enums.SMSFormatType;
 import com.dpdocter.enums.SMSStatus;
@@ -121,6 +119,7 @@ import com.dpdocter.repository.DentalChainLandmarkLocalityRepository;
 import com.dpdocter.repository.DoctorClinicProfileRepository;
 import com.dpdocter.repository.DoctorRepository;
 import com.dpdocter.repository.HospitalRepository;
+import com.dpdocter.repository.LandmarkLocalityRepository;
 import com.dpdocter.repository.LocationRepository;
 import com.dpdocter.repository.PatientRepository;
 import com.dpdocter.repository.RoleRepository;
@@ -130,7 +129,6 @@ import com.dpdocter.repository.UserRepository;
 import com.dpdocter.repository.UserRoleRepository;
 import com.dpdocter.request.BroadcastByTreatmentRequest;
 import com.dpdocter.request.DentalChainAppointmentRequest;
-import com.dpdocter.request.PatientRegistrationRequest;
 import com.dpdocter.request.PatientRegistrationRequest;
 import com.dpdocter.response.CampMsgTemplateResponse;
 import com.dpdocter.response.InteraktResponse;
@@ -150,6 +148,9 @@ import com.mongodb.BasicDBObject;
 import common.util.web.DPDoctorUtils;
 import common.util.web.DateAndTimeUtility;
 import common.util.web.Response;
+import com.dpdocter.beans.Zone;
+import com.dpdocter.collections.ZoneCollection;
+import com.dpdocter.repository.ZoneRepository;
 
 @Service
 public class AppointmentV3ServiceImpl implements AppointmentV3Service {
@@ -160,7 +161,7 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 	private DentalChainCityRepository cityRepository;
 
 	@Autowired
-	private DentalChainLandmarkLocalityRepository landmarkLocalityRepository;
+	private DentalChainLandmarkLocalityRepository dentalChainLandmarkLocalityRepository;
 
 	@Autowired
 	private LocationRepository locationRepository;
@@ -272,6 +273,12 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 
 	@Value("${is.env.production}")
 	private Boolean isEnvProduction;
+
+	@Autowired
+	private LandmarkLocalityRepository landmarkLocalityRepository;
+
+	@Autowired
+	private ZoneRepository zoneRepository;
 
 	@Override
 	public Appointment updateAppointment(DentalChainAppointmentRequest request) {
@@ -673,12 +680,7 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 					if (userRoleCollection != null) {
 						RoleCollection roleCollection = roleRepository.findById(userRoleCollection.getId())
 								.orElse(null);
-						if (roleCollection != null)
-							if (roleCollection.getRole().equalsIgnoreCase(RoleEnum.RECEPTIONIST_NURSE.getRole())
-									|| roleCollection.getRole().equalsIgnoreCase("RECEPTIONIST")) {
-								throw new BusinessException(ServiceError.NotAuthorized,
-										"You are not authorized to have slots.");
-							}
+
 					}
 				}
 				Integer startTime = 0, endTime = 0;
@@ -924,7 +926,7 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 			if (landmarkLocality.getCityId() != null) {
 			}
 
-			landmarkLocalityCollection = landmarkLocalityRepository.save(landmarkLocalityCollection);
+			landmarkLocalityCollection = dentalChainLandmarkLocalityRepository.save(landmarkLocalityCollection);
 			BeanUtil.map(landmarkLocalityCollection, landmarkLocality);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1158,14 +1160,14 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 	public Boolean deleteLocalityById(String localityId, Boolean isDiscarded) {
 		Boolean response = false;
 		try {
-			DentalChainLandmarkLocalityCollection landmarkLocalityCollection = landmarkLocalityRepository
+			DentalChainLandmarkLocalityCollection landmarkLocalityCollection = dentalChainLandmarkLocalityRepository
 					.findById(new ObjectId(localityId)).orElse(null);
 			if (landmarkLocalityCollection == null) {
 				throw new BusinessException(ServiceError.NotFound, "Error no such id to delete");
 			}
 			landmarkLocalityCollection.setUpdatedTime(new Date());
 			landmarkLocalityCollection.setIsDiscarded(isDiscarded);
-			landmarkLocalityCollection = landmarkLocalityRepository.save(landmarkLocalityCollection);
+			landmarkLocalityCollection = dentalChainLandmarkLocalityRepository.save(landmarkLocalityCollection);
 			response = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3759,6 +3761,24 @@ public class AppointmentV3ServiceImpl implements AppointmentV3Service {
 			response = true;
 		}
 		return response;
+	}
+
+	@Override
+	@Transactional
+	public Zone addZone(Zone zone) {
+		try {
+			ZoneCollection zoneCollection = new ZoneCollection();
+			zone.setCreatedTime(new Date());
+			zone.setUpdatedTime(new Date());
+			BeanUtil.map(zone, zoneCollection);
+
+			zoneCollection = zoneRepository.save(zoneCollection);
+			BeanUtil.map(zoneCollection, zone);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException(ServiceError.Unknown, e.getMessage());
+		}
+		return zone;
 	}
 
 }

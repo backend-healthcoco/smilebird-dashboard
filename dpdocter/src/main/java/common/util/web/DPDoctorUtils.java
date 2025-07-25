@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -63,6 +64,15 @@ public class DPDoctorUtils {
 			}
 		}
 		return result;
+	}
+
+	public static Date parseDate(String dateStr) {
+		// Example: "2024-07-01"
+		try {
+			return new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 	public static boolean allStringsEmpty(String... values) {

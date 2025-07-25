@@ -69,6 +69,9 @@ public class LocationCollection extends GenericCollection {
 
 	@Field
 	private String locality;
+	
+	@Field
+	private String zone;
 
 	@Field
 	private String clinicNumber;
@@ -158,6 +161,9 @@ public class LocationCollection extends GenericCollection {
 	private ObjectId ratelistId;
 	@Field
 	private String chargeCode;
+	
+	@Field
+	private Double npsScore;
 	public Boolean getIsDentalChain() {
 		return isDentalChain;
 	}
@@ -552,6 +558,22 @@ public class LocationCollection extends GenericCollection {
 
 	public void setChargeCode(String chargeCode) {
 		this.chargeCode = chargeCode;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public Double getNpsScore() {
+		return npsScore;
+	}
+
+	public void setNpsScore(Double npsScore) {
+		this.npsScore = npsScore;
 	}
 
 	@Override

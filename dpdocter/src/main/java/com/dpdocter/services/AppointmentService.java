@@ -10,6 +10,7 @@ import com.dpdocter.beans.City;
 import com.dpdocter.beans.Clinic;
 import com.dpdocter.beans.Lab;
 import com.dpdocter.beans.LandmarkLocality;
+import com.dpdocter.beans.Zone;
 import com.dpdocter.request.AppointmentRequest;
 import com.dpdocter.request.DentalChainAppointmentRequest;
 import com.dpdocter.response.ConsultationSpeciality;
@@ -59,8 +60,6 @@ public interface AppointmentService {
 
 	List<PatientAppUsersResponse> getUsers(int size, int page, String searchTerm,String mobileNumber);
 
-	SlotDataResponse getOnlineConsultationTimeSlots(String doctorId, String type, Date dateObj, Boolean isPatient);
-
 	
 	Response<Appointment> getAppointments(String locationId,String doctorId, String patientId, String from,
 			String to, int page, int size, String updatedTime, String status, String sortBy, String fromTime,
@@ -80,5 +79,11 @@ public interface AppointmentService {
 
 	Response<Object> getUsersFromUserCl(int size, int page, String searchTerm, String mobileNumber,
 			Boolean isDentalChainPatient);
+
+	Zone addZone(Zone request);
+
+	Response<Object> getZone(int size, int page, String zoneId, String searchTerm, Boolean isDiscarded);
+
+	Boolean deleteZoneById(String zoneId, Boolean isDiscarded);
 
 }

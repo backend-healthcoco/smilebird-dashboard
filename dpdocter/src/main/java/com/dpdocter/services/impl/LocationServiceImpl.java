@@ -28,7 +28,6 @@ import com.dpdocter.collections.SpecimenCollection;
 import com.dpdocter.exceptions.BusinessException;
 import com.dpdocter.exceptions.ServiceError;
 import com.dpdocter.reflections.BeanUtil;
-import com.dpdocter.repository.LabAssociationRepository;
 import com.dpdocter.repository.LocationRepository;
 import com.dpdocter.repository.RateCardRepository;
 import com.dpdocter.repository.SpecimenRepository;
@@ -56,12 +55,9 @@ public class LocationServiceImpl implements LocationServices {
 	private RateCardRepository rateCardRepository;
 
 	@Autowired
-	private LabAssociationRepository labAssociationRepository;
-
-	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	private static Logger logger = LogManager.getLogger(LocaleServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(LocationServiceImpl.class);
 
 	@Override
 	public List<GeocodedLocation> geocodeLocation(String address) {
@@ -162,29 +158,7 @@ public class LocationServiceImpl implements LocationServices {
 	@Transactional
 	public Boolean addAssociatedLabs(List<LabAssociation> labAssociations) {
 		Boolean response = false;
-		LabAssociationCollection labAssociationCollection = null;
-		try {
-			for (LabAssociation labAssociation : labAssociations) {
-				if (DPDoctorUtils.anyStringEmpty(labAssociation.getParentLabId(), labAssociation.getDaughterLabId())) {
-					throw new BusinessException(ServiceError.InvalidInput,
-							"Invalid Input - Parent & Daughter Lab ID cannot be null");
-				}
-				labAssociationCollection = labAssociationRepository.findByParentLabIdAndDaughterLabId(
-						new ObjectId(labAssociation.getParentLabId()), new ObjectId(labAssociation.getDaughterLabId()));
-				if (labAssociationCollection == null) {
-					labAssociationCollection = new LabAssociationCollection();
-				} else {
-					labAssociation.setId(String.valueOf(labAssociationCollection.getId()));
-				}
-				BeanUtil.map(labAssociation, labAssociationCollection);
-				labAssociationCollection = labAssociationRepository.save(labAssociationCollection);
-			}
-			response = true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			logger.warn(e);
-		}
+	
 		return response;
 	}
 

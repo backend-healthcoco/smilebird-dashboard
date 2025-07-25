@@ -43,7 +43,6 @@ import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -79,12 +78,9 @@ import com.dpdocter.collections.EmailListCollection;
 import com.dpdocter.collections.HospitalCollection;
 import com.dpdocter.collections.LocaleCollection;
 import com.dpdocter.collections.LocationCollection;
-import com.dpdocter.collections.MedicalCouncilCollection;
 import com.dpdocter.collections.ProfessionalMembershipCollection;
 import com.dpdocter.collections.ResumeCollection;
 import com.dpdocter.collections.SMSTrackDetail;
-import com.dpdocter.collections.SearchRequestFromUserCollection;
-import com.dpdocter.collections.SearchRequestToPharmacyCollection;
 import com.dpdocter.collections.SpecialityCollection;
 import com.dpdocter.collections.UserCollection;
 import com.dpdocter.collections.UserRoleCollection;
@@ -94,14 +90,12 @@ import com.dpdocter.elasticsearch.document.ESDoctorDocument;
 import com.dpdocter.elasticsearch.document.ESEducationInstituteDocument;
 import com.dpdocter.elasticsearch.document.ESEducationQualificationDocument;
 import com.dpdocter.elasticsearch.document.ESLocationDocument;
-import com.dpdocter.elasticsearch.document.ESMedicalCouncilDocument;
 import com.dpdocter.elasticsearch.document.ESProfessionalMembershipDocument;
 import com.dpdocter.elasticsearch.repository.ESDiagnosticTestRepository;
 import com.dpdocter.elasticsearch.repository.ESDoctorRepository;
 import com.dpdocter.elasticsearch.repository.ESEducationInstituteRepository;
 import com.dpdocter.elasticsearch.repository.ESEducationQualificationRepository;
 import com.dpdocter.elasticsearch.repository.ESLocationRepository;
-import com.dpdocter.elasticsearch.repository.ESMedicalCouncilRepository;
 import com.dpdocter.elasticsearch.repository.ESProfessionalMembershipRepository;
 import com.dpdocter.elasticsearch.services.ESCityService;
 import com.dpdocter.enums.AppType;
@@ -126,7 +120,6 @@ import com.dpdocter.repository.EmailListRepository;
 import com.dpdocter.repository.HospitalRepository;
 import com.dpdocter.repository.LocaleRepository;
 import com.dpdocter.repository.LocationRepository;
-import com.dpdocter.repository.MedicalCouncilRepository;
 import com.dpdocter.repository.ProfessionalMembershipRepository;
 import com.dpdocter.repository.ResumeRepository;
 import com.dpdocter.repository.RoleRepository;
@@ -254,12 +247,6 @@ public class AdminServicesImpl implements AdminServices {
 
 	@Autowired
 	private ESProfessionalMembershipRepository esProfessionalMembershipRepository;
-
-	@Autowired
-	private MedicalCouncilRepository medicalCouncilRepository;
-
-	@Autowired
-	private ESMedicalCouncilRepository esMedicalCouncilRepository;
 
 	@Autowired
 	private DoctorClinicProfileRepository doctorClinicProfileRepository;
@@ -1041,10 +1028,9 @@ public class AdminServicesImpl implements AdminServices {
 							Collection<ObjectId> roleIds = CollectionUtils.collect(userRoleCollection,
 									new BeanToPropertyValueTransformer("roleId"));
 							if (roleIds != null && !roleIds.isEmpty()) {
-								Integer count = roleRepository.findCountByIdAndRole(roleIds,
-										RoleEnum.LOCATION_ADMIN.getRole());
+								Integer count = roleRepository.findCountByIdAndRole(roleIds, RoleEnum.ADMIN.getRole());
 								if (count != null && count > 0)
-									doctorResponse.setRole(RoleEnum.LOCATION_ADMIN.getRole());
+									doctorResponse.setRole(RoleEnum.ADMIN.getRole());
 							}
 							doctorResponse.setIsNutritionist(isNutritionist);
 						}
@@ -1396,37 +1382,7 @@ public class AdminServicesImpl implements AdminServices {
 
 	@Override
 	public void importMedicalCouncil() {
-		String csvFile = "/home/ubuntu/medicalCouncil.csv";
-		BufferedReader br = null;
-		String line = "";
-		String cvsSplitBy = "\\?";
 
-		try {
-			br = new BufferedReader(new FileReader(csvFile));
-			while ((line = br.readLine()) != null) {
-				String[] obj = line.split(cvsSplitBy);
-				MedicalCouncilCollection medicalCouncilCollection = new MedicalCouncilCollection();
-				medicalCouncilCollection.setMedicalCouncil(obj[0]);
-				medicalCouncilCollection.setCreatedBy("ADMIN");
-				medicalCouncilCollection.setCreatedTime(new Date());
-				medicalCouncilCollection.setUpdatedTime(new Date());
-				medicalCouncilRepository.save(medicalCouncilCollection);
-				ESMedicalCouncilDocument esMedicalCouncilDocument = new ESMedicalCouncilDocument();
-				BeanUtil.map(medicalCouncilCollection, esMedicalCouncilDocument);
-				esMedicalCouncilRepository.save(esMedicalCouncilDocument);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	@Override
@@ -2231,47 +2187,7 @@ public class AdminServicesImpl implements AdminServices {
 										.append("includeArrayIndex", "arrayIndex3"))),
 						Aggregation.sort(Sort.Direction.DESC, "createdTime"));
 			}
-			AggregationResults<SearchRequestDetailsResponse> results = mongoTemplate.aggregate(aggregation,
-					SearchRequestFromUserCollection.class, SearchRequestDetailsResponse.class);
-			response = results.getMappedResults();
-			List<GeocodedLocation> geocodedLocations = null;
-			if (response != null && !response.isEmpty()) {
-				BlockUserCollection blockUserCollection = null;
-				for (SearchRequestDetailsResponse searchRequestDetailsResponse : response) {
-					criteria = new Criteria("replyType").is("NO").and("uniqueRequestId")
-							.is(searchRequestDetailsResponse.getUniqueRequestId());
-					searchRequestDetailsResponse.setNoOfNoReplies(
-							mongoTemplate.count(new Query(criteria), SearchRequestToPharmacyCollection.class));
-					criteria = new Criteria()
-							.orOperator(new Criteria("replyType").is("YES"),
-									new Criteria("replyType").is("REQUEST_FULFILLED"))
-							.and("uniqueRequestId").is(searchRequestDetailsResponse.getUniqueRequestId());
-					searchRequestDetailsResponse.setNoOfYesReplies(
-							mongoTemplate.count(new Query(criteria), SearchRequestToPharmacyCollection.class));
 
-					if (searchRequestDetailsResponse.getLongitude() > 0
-							&& searchRequestDetailsResponse.getLatitude() > 0) {
-						System.out.println(searchRequestDetailsResponse.getLongitude() + ""
-								+ searchRequestDetailsResponse.getLatitude());
-						// geocodedLocations =
-						// locationServices.geocodeTimeZone(searchRequestDetailsResponse.getLatitude(),
-						// searchRequestDetailsResponse.getLongitude());
-						// if (!geocodedLocations.isEmpty() && geocodedLocations
-						// != null) {
-						// searchRequestDetailsResponse.setLocation(geocodedLocations.get(0).getFormattedAddress());
-						// }
-					}
-					if (!DPDoctorUtils.anyStringEmpty(searchRequestDetailsResponse.getUserId())) {
-						blockUserCollection = blockUserRepository
-								.findByUserIds(new ObjectId(searchRequestDetailsResponse.getUserId()));
-						if (blockUserCollection != null) {
-							searchRequestDetailsResponse.setIsBlockForDay(blockUserCollection.getIsForDay());
-							searchRequestDetailsResponse.setIsBlockForHour(blockUserCollection.getIsForHour());
-						}
-					}
-
-				}
-			}
 		} catch (Exception e) {
 			logger.error("Error while getting user request details" + e.getMessage());
 			e.printStackTrace();
@@ -2295,11 +2211,6 @@ public class AdminServicesImpl implements AdminServices {
 			} else {
 				criteria.orOperator(new Criteria("replyType").is(null), new Criteria("replyType").exists(false));
 			}
-			Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(criteria),
-					Aggregation.lookup("locale_cl", "localeId", "_id", "locale"), Aggregation.unwind("locale"));
-
-			response = mongoTemplate.aggregate(aggregation, SearchRequestToPharmacyCollection.class,
-					SearchRequestToPharmacyResponse.class).getMappedResults();
 
 		} catch (Exception e) {
 			logger.error("Error while getting Pharmacy Response" + e.getMessage());
@@ -3767,6 +3678,38 @@ public class AdminServicesImpl implements AdminServices {
 			logger.error("Error generating/sending PDF: ", e);
 			throw new BusinessException(ServiceError.Unknown, e.getMessage());
 		}
+		return response;
+	}
+
+	@Override
+	public Boolean updateClinicNpsScore(String locationId, double npsScore) {
+		Boolean response = false;
+		ObjectId locationObjectId = null;
+		try {
+			List<ESDoctorDocument> esDoctorDocuments = null;
+			if (!DPDoctorUtils.anyStringEmpty(locationId)) {
+				locationObjectId = new ObjectId(locationId);
+				LocationCollection locationCollection = locationRepository.findById(locationObjectId).orElse(null);
+				locationCollection.setNpsScore(npsScore);
+				locationRepository.save(locationCollection);
+				esDoctorDocuments = esDoctorRepository.findByLocationId(locationId);
+				for (ESDoctorDocument doctorDocument : esDoctorDocuments) {
+					doctorDocument.setNpsScore(npsScore);
+					esDoctorRepository.save(doctorDocument);
+				}
+				ESLocationDocument esLocationDocument = esLocationRepository.findById(locationId).orElse(null);
+				if (esLocationDocument != null) {
+					esLocationDocument.setNpsScore(npsScore);
+					esLocationRepository.save(esLocationDocument);
+				}
+			}
+			response = true;
+		} catch (Exception e) {
+			logger.error("Error while updating clinic nps " + e.getMessage());
+			e.printStackTrace();
+			throw new BusinessException(ServiceError.Unknown, "Error while updating clinic nps " + e.getMessage());
+		}
+
 		return response;
 	}
 
