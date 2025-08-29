@@ -725,6 +725,15 @@ public interface PathProxy {
 
 	}
 
+	public static final String SMILEBIRD_ADMIN_UI_PERMISSION_BASE_URL = BASE_URL + "/smilebirduUiPermission";
+
+	public interface SmilebirdAdminUIPermissionUrls {
+		public static final String ADD_EDIT_ADMIN_UI_PERMISSION = "/addEditAdminUIPermission";
+		public static final String GET_ADMIN_UI_PERMISSIONS = "/getAdminUIPermissions";
+		public static final String GET_ADMIN_UI_PERMISSION = "/getAdminUIPermission/{id}";
+		public static final String GET_ADMIN_UI_PERMISSION_BY_ADMINID = "/getAdminUIPermissionsByAdminId/{adminId}";
+
+	}
 	public static final String RAZORPAY_BASE_URL = BASE_URL + "/razorpay";
 
 	public interface RazorPayUrls {
@@ -852,5 +861,11 @@ public interface PathProxy {
 		public static final String COMPANY_FINANCIALS = "/company-financials";
 		public static final String CLINIC_FINANCIALS = "/clinic-financials";
 		public static final String CLINIC_PERFORMANCE_COMPARISON = "/clinic-performance-comparison";
+		
+		// New Financial APIs
+		public static final String FINANCIAL_OVERVIEW = "/financial/overview";
+		public static final String REVENUE_EXPENSES_TREND = "/financial/revenue-expenses-trend";
+		public static final String CLINIC_WISE_FINANCIALS = "/financial/clinic-wise";
+		public static final String EXPENSES_BREAKDOWN = "/financial/expenses-breakdown";
 	}
 }

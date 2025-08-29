@@ -2,7 +2,6 @@ package com.dpdocter.beans;
 
 import java.util.List;
 
-
 import com.dpdocter.collections.GenericCollection;
 
 public class AdminUIPermission extends GenericCollection {
@@ -10,11 +9,7 @@ public class AdminUIPermission extends GenericCollection {
 
 	private String adminId;
 
-	private List<String> uiPermissions;	
-	
-	private Boolean  isCuminAdmin = false;
-	
-	private Boolean  isDentalChainAdmin = false;
+	private List<String> uiPermissions;
 
 	public List<String> getUiPermissions() {
 		return uiPermissions;
@@ -39,23 +34,5 @@ public class AdminUIPermission extends GenericCollection {
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
-
-	public Boolean getIsCuminAdmin() {
-		return isCuminAdmin;
-	}
-
-	public void setIsCuminAdmin(Boolean isCuminAdmin) {
-		this.isCuminAdmin = isCuminAdmin;
-	}
-
-	public Boolean getIsDentalChainAdmin() {
-		return isDentalChainAdmin;
-	}
-
-	public void setIsDentalChainAdmin(Boolean isDentalChainAdmin) {
-		this.isDentalChainAdmin = isDentalChainAdmin;
-	}
-	
-	
 
 }

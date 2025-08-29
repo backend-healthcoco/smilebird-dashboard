@@ -28,6 +28,10 @@ import com.dpdocter.beans.DashboardSummaryDto;
 import com.dpdocter.beans.PerformanceMetricsDto;
 import com.dpdocter.beans.FinancialSummaryDto;
 import com.dpdocter.beans.ClinicPerformanceDto;
+import com.dpdocter.beans.FinancialOverviewDto;
+import com.dpdocter.beans.RevenueExpensesTrendDto;
+import com.dpdocter.beans.ClinicWiseFinancialsDto;
+import com.dpdocter.beans.ExpensesBreakdownDto;
 
 // Use PathProxy for the base URL
 
@@ -54,102 +58,81 @@ public class DashboardApi {
 	}
 
 	/**
-	 * 13. Get Clinic API (Dummy)
+	 * 13. Get Clinic API 
 	 */
 	@GetMapping(value = PathProxy.DashboardApiUrls.CLINICS)
-	@ApiOperation(value = PathProxy.DashboardApiUrls.CLINICS, notes = "Returns dummy list of clinics with financials and doctors")
-	public Response<List<Map<String, Object>>> getClinics(@RequestParam(required = false) String startDate,
+	@ApiOperation(value = PathProxy.DashboardApiUrls.CLINICS, notes = PathProxy.DashboardApiUrls.CLINICS)
+	public Response<DashboardClinicResponse> getClinics(@RequestParam(required = false) String startDate,
 			@RequestParam(required = false) String endDate,@RequestParam(required = false) String zone,
 			@RequestParam(required = false) String city, @RequestParam(required = false) String searchTerm,
 			@RequestParam(required = false) String page, @RequestParam(required = false) String size) {
 
-		List<Map<String, Object>> clinics = new ArrayList<>();
+		List<DashboardClinicResponse> clinics = dashboardKPIService.getclinics(startDate,endDate,zone,city,searchTerm,page,size);
 
-		Map<String, Object> clinic1 = new HashMap<>();
-		clinic1.put("clinicId", "65e91c3f84e543d234abc123");
-		clinic1.put("clinicName", "Smilebird Worli");
-		clinic1.put("city", "Mumbai");
-		clinic1.put("revenue", 1200000);
-		clinic1.put("expenses", 800000);
-		clinic1.put("profit", 400000);
-		clinic1.put("profitPercentage", 33.33);
-		clinic1.put("specialty", "Dental");
-		clinic1.put("doctotName", "Dr.Tushita Singh");
-		clinic1.put("doctorId", "65e91c3f84e543d234abc124");
-
-		clinics.add(clinic1);
-
-		Response<List<Map<String, Object>>> response = new Response<>();
-		response.setData(clinics);
+		Response<DashboardClinicResponse> response = new Response<>();
+		response.setDataList(clinics);
 		return response;
 	}
 
 	/**
-	 * View Clinic by clinicId (Dummy)
+	 * View Clinic by clinicId
 	 */
 	@GetMapping(value = PathProxy.DashboardApiUrls.VIEW_CLINIC_BY_ID)
-	@ApiOperation(value = "View clinic by clinicId", notes = "Returns clinic details and KPIs by clinicId (dummy response)")
+	@ApiOperation(value = "View clinic by clinicId", notes = "Returns clinic details and KPIs by clinicId")
 	public Response<ViewClinicResponse> viewClinicById(@PathVariable("clinicId") String clinicId) {
-		ViewClinicResponse clinicDetails = new ViewClinicResponse();
-		clinicDetails.setClinicId(clinicId);
-		clinicDetails.setRevenue(1200000);
-		clinicDetails.setNetIncome(400000);
-		clinicDetails.setTotalPatient(1500);
-		clinicDetails.setFootfall(1800);
-		clinicDetails.setNewPatientConversion(65.5);
-		clinicDetails.setNewPatients(500);
-		clinicDetails.setReturning(1000);
-		clinicDetails.setDoctorInCharge("Dr. Tushita Singh");
-		clinicDetails.setOperatories(5);
-		clinicDetails.setBreakevenStatus("Achieved");
-		clinicDetails.setAverageRating(4.7);
-		clinicDetails.setTreatmentCompletion(92.3);
-
+		ViewClinicResponse clinicDetails = dashboardKPIService.getClinicById(clinicId);
+		
 		Response<ViewClinicResponse> response = new Response<>();
 		response.setData(clinicDetails);
 		return response;
 	}
 
 	/**
-	 * Monthly Summary API (Dummy)
+	 * Monthly Summary API
 	 */
 	@GetMapping(value = PathProxy.DashboardApiUrls.MONTHLY_SUMMARY)
-	@ApiOperation(value = "Monthly Summary", notes = "Returns monthly summary for a clinic")
+	@ApiOperation(value = "Monthly Summary", notes = "Returns monthly summary for a clinic with actual revenue, expenses, and patient data")
 	public Response<DashboardSummaryDto> getMonthlySummary(
 			@RequestParam String clinicId,
-			@RequestParam int month,
-			@RequestParam int year) {
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
 
-		DashboardSummaryDto summary = dashboardKPIService.getMonthlySummary(clinicId, month, year);
+		DashboardSummaryDto summary = dashboardKPIService.getMonthlySummary(clinicId, startDate, endDate);
 		Response<DashboardSummaryDto> response = new Response<>();
 		response.setData(summary);
 		return response;
 	}
 
 	@GetMapping(value = PathProxy.DashboardApiUrls.PERFORMANCE_METRICS)
-	@ApiOperation(value = "Performance Metrics", notes = "Returns performance metrics for a clinic by year")
+	@ApiOperation(value = "Performance Metrics", notes = "Returns actual performance metrics for a clinic with real revenue, expenses, and patient data")
 	public Response<List<PerformanceMetricsDto>> getPerformanceMetrics(
 			@RequestParam String clinicId,
-			@RequestParam int year) {
-		List<PerformanceMetricsDto> metrics = dashboardKPIService.getPerformanceMetrics(clinicId, year);
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
+		List<PerformanceMetricsDto> metrics = dashboardKPIService.getPerformanceMetrics(clinicId, startDate, endDate);
 		Response<List<PerformanceMetricsDto>> response = new Response<>();
 		response.setData(metrics);
 		return response;
 	}
 
 	@GetMapping(value = PathProxy.DashboardApiUrls.COMPANY_FINANCIALS)
-	@ApiOperation(value = "Company Financials", notes = "Returns company-level financial summary for a given period")
-	public Response<FinancialSummaryDto> getCompanyFinancials(@RequestParam String period) {
-		FinancialSummaryDto summary = dashboardKPIService.getCompanyFinancials(period);
+	@ApiOperation(value = "Company Financials", notes = "Returns actual company-level financial summary for a given period with real revenue and expense data")
+	public Response<FinancialSummaryDto> getCompanyFinancials(
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
+		FinancialSummaryDto summary = dashboardKPIService.getCompanyFinancials(startDate, endDate);
 		Response<FinancialSummaryDto> response = new Response<>();
 		response.setData(summary);
 		return response;
 	}
 
 	@GetMapping(value = PathProxy.DashboardApiUrls.CLINIC_FINANCIALS)
-	@ApiOperation(value = "Clinic Financials", notes = "Returns clinic-level financial summary for a given period")
-	public Response<FinancialSummaryDto> getClinicFinancials(@RequestParam String clinicId, @RequestParam String period) {
-		FinancialSummaryDto summary = dashboardKPIService.getClinicFinancials(clinicId, period);
+	@ApiOperation(value = "Clinic Financials", notes = "Returns actual clinic-level financial summary for a given period with real revenue and expense data")
+	public Response<FinancialSummaryDto> getClinicFinancials(
+			@RequestParam String clinicId, 
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
+		FinancialSummaryDto summary = dashboardKPIService.getClinicFinancials(clinicId, startDate, endDate);
 		Response<FinancialSummaryDto> response = new Response<>();
 		response.setData(summary);
 		return response;
@@ -157,10 +140,79 @@ public class DashboardApi {
 
 	@GetMapping(value = PathProxy.DashboardApiUrls.CLINIC_PERFORMANCE_COMPARISON)
 	@ApiOperation(value = "Clinic Performance Comparison", notes = "Returns performance comparison for clinics for a given period")
-	public Response<List<ClinicPerformanceDto>> getClinicPerformanceComparison(@RequestParam String period) {
-		List<ClinicPerformanceDto> list = dashboardKPIService.getClinicPerformanceComparison(period);
+	public Response<List<ClinicPerformanceDto>> getClinicPerformanceComparison(
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
+		List<ClinicPerformanceDto> list = dashboardKPIService.getClinicPerformanceComparison(startDate, endDate);
 		Response<List<ClinicPerformanceDto>> response = new Response<>();
 		response.setData(list);
+		return response;
+	}
+
+	// New Financial APIs
+
+	/**
+	 * Get Financial Overview
+	 */
+	@GetMapping(value = PathProxy.DashboardApiUrls.FINANCIAL_OVERVIEW)
+	@ApiOperation(value = "Financial Overview", notes = "Returns financial overview with total revenue, expenses, profit and profit percentage")
+	public Response<FinancialOverviewDto> getFinancialOverview(
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate,
+			@RequestParam(required = false) String zone,
+			@RequestParam(required = false) String clinicId) {
+		
+		FinancialOverviewDto overview = dashboardKPIService.getFinancialOverview(startDate, endDate, zone, clinicId);
+		Response<FinancialOverviewDto> response = new Response<>();
+		response.setData(overview);
+		return response;
+	}
+
+	/**
+	 * Get Revenue vs Expenses Trend Chart
+	 */
+	@GetMapping(value = PathProxy.DashboardApiUrls.REVENUE_EXPENSES_TREND)
+	@ApiOperation(value = "Revenue vs Expenses Trend", notes = "Returns revenue and expenses trend data for charts")
+	public Response<RevenueExpensesTrendDto> getRevenueExpensesTrend(
+			@RequestParam(required = false) String range,
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate,
+			@RequestParam(required = false) String clinicId) {
+		
+		RevenueExpensesTrendDto trend = dashboardKPIService.getRevenueExpensesTrend(range, startDate, endDate, clinicId);
+		Response<RevenueExpensesTrendDto> response = new Response<>();
+		response.setData(trend);
+		return response;
+	}
+
+	/**
+	 * Get Clinic-wise Financials
+	 */
+	@GetMapping(value = PathProxy.DashboardApiUrls.CLINIC_WISE_FINANCIALS)
+	@ApiOperation(value = "Clinic-wise Financials", notes = "Returns financial data for all clinics")
+	public Response<ClinicWiseFinancialsDto> getClinicWiseFinancials(
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) {
+		
+		ClinicWiseFinancialsDto clinicFinancials = dashboardKPIService.getClinicWiseFinancials(startDate, endDate);
+		Response<ClinicWiseFinancialsDto> response = new Response<>();
+		response.setData(clinicFinancials);
+		return response;
+	}
+
+	/**
+	 * Get Expenses Breakdown by Category
+	 */
+	@GetMapping(value = PathProxy.DashboardApiUrls.EXPENSES_BREAKDOWN)
+	@ApiOperation(value = "Expenses Breakdown", notes = "Returns expenses breakdown by category")
+	public Response<ExpensesBreakdownDto> getExpensesBreakdown(
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate,
+			@RequestParam(required = false) String clinicId) {
+		
+		ExpensesBreakdownDto breakdown = dashboardKPIService.getExpensesBreakdown(startDate, endDate, clinicId);
+		Response<ExpensesBreakdownDto> response = new Response<>();
+		response.setData(breakdown);
 		return response;
 	}
 }

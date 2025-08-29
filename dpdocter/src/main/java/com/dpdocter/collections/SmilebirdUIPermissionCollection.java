@@ -7,8 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "admin_ui_permission_cl")
-public class AdminUIPermissionCollection extends GenericCollection {
+@Document(collection = "smilebird_admin_ui_permission_cl")
+public class SmilebirdUIPermissionCollection extends GenericCollection {
 	@Id
 	private ObjectId id;
 
@@ -16,12 +16,6 @@ public class AdminUIPermissionCollection extends GenericCollection {
 	private ObjectId adminId;
 	@Field
 	private List<String> uiPermissions;
-
-	@Field
-	private Boolean isCuminAdmin = false;
-
-	@Field
-	private Boolean isDentalChainAdmin = false;
 
 	public ObjectId getId() {
 		return id;
@@ -45,22 +39,6 @@ public class AdminUIPermissionCollection extends GenericCollection {
 
 	public void setUiPermissions(List<String> uiPermissions) {
 		this.uiPermissions = uiPermissions;
-	}
-
-	public Boolean getIsCuminAdmin() {
-		return isCuminAdmin;
-	}
-
-	public void setIsCuminAdmin(Boolean isCuminAdmin) {
-		this.isCuminAdmin = isCuminAdmin;
-	}
-
-	public Boolean getIsDentalChainAdmin() {
-		return isDentalChainAdmin;
-	}
-
-	public void setIsDentalChainAdmin(Boolean isDentalChainAdmin) {
-		this.isDentalChainAdmin = isDentalChainAdmin;
 	}
 
 }
